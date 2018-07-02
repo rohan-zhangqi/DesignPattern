@@ -8,13 +8,16 @@ public class Player {
     public void buy(Double amount){
         this.amount = amount;
         totalAmount += amount;
-        if (totalAmount > 30000) {//30000则改为金牌会员计算方式
+        /*if (totalAmount > 30000) {//30000则改为金牌会员计算方式
             calPrice = new GoldVip();
         } else if (totalAmount > 20000){//类似
             calPrice = new SuperVip();
         } else if (totalAmount > 10000){//类似
             calPrice = new Vip();
-        }
+        }*/
+
+        /* 变化点，我们将策略的制定转移给了策略工厂，将这部分责任分离出去 */
+        calPrice = CalPriceFactory.getInstance().createCalPrice(this);
     }
 
     /*
@@ -22,5 +25,9 @@ public class Player {
      */
     public Double calLastAmount(){
         return calPrice.calPrice(amount);
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 }
